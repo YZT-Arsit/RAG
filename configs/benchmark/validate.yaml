@@ -1,0 +1,2 @@
+benchmark_jsonl: examples/smoke/datasets/benchmark.jsonl
+report_path: artifacts/smoke/reports/evaluation/benchmark_validation_report.md

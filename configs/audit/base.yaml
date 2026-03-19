@@ -1,0 +1,13 @@
+input_paths:
+  - examples/smoke/raw/legal_corpus_smoke.jsonl
+output_dir: artifacts/smoke/reports/audit
+normalized_output_path: artifacts/smoke/processed/normalized_documents.jsonl
+detail_csv_path: artifacts/smoke/reports/audit/audit_details.csv
+report_path: artifacts/smoke/reports/audit/audit_report.md
+sample_limit: null
+min_body_length: 50
+near_duplicate_hamming_threshold: 3
+near_duplicate_prefix_bits: 16
+short_body_threshold: 30
+template_similarity_line_threshold: 0.6
+year_regex: '(19|20)\d{2}'

@@ -1,0 +1,28 @@
+input_chunk_jsonl: artifacts/smoke/processed/chunks.jsonl
+candidates_output_jsonl: artifacts/smoke/datasets/benchmark_candidates.jsonl
+deduped_output_jsonl: artifacts/smoke/datasets/benchmark_candidates_deduped.jsonl
+benchmark_output_jsonl: artifacts/smoke/datasets/benchmark_generated.jsonl
+report_path: artifacts/smoke/reports/evaluation/benchmark_generation_report.md
+preferred_chunk_method: structure
+target_candidate_count: 1000
+candidate_target_counts:
+  definition: 210
+  condition: 210
+  procedure: 210
+  responsibility: 150
+  comparison: 140
+  unanswerable: 80
+final_target_counts:
+  definition: 50
+  condition: 50
+  procedure: 50
+  responsibility: 35
+  comparison: 35
+  unanswerable: 20
+min_chunk_text_length: 80
+min_question_chars: 8
+max_question_chars: 80
+semantic_dedup_threshold: 0.82
+min_question_evidence_overlap: 0.12
+max_candidates_per_doc_per_type: 6
+random_seed: 42

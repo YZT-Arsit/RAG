@@ -1,0 +1,9 @@
+input_jsonl: artifacts/smoke/processed/cleaned_documents.jsonl
+output_jsonl: artifacts/smoke/processed/chunks.jsonl
+report_path: artifacts/smoke/reports/chunking/chunking_report.md
+method: both
+fixed_chunk_size: 500
+fixed_chunk_overlap: 100
+structure_max_chunk_size: 800
+structure_min_chunk_size: 120
+structure_sentence_overlap: 1

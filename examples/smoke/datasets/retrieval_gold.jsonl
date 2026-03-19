@@ -1,0 +1,5 @@
+{"query_id":"q1","relevant_chunk_ids":["examples/smoke/raw/legal_corpus_smoke.jsonl:0::structure::0"],"metadata":{"title":"中小企业合规管理办法"}}
+{"query_id":"q2","relevant_chunk_ids":["examples/smoke/raw/legal_corpus_smoke.jsonl:1::structure::0"],"metadata":{"title":"行政复议工作规则"}}
+{"query_id":"q3","relevant_chunk_ids":["examples/smoke/raw/legal_corpus_smoke.jsonl:2::structure::0"],"metadata":{"title":"劳动争议协商调解指引"}}
+{"query_id":"q4","relevant_chunk_ids":[],"metadata":{"title":"劳动争议协商调解指引","answerable":false}}
+

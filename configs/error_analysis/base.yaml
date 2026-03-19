@@ -1,0 +1,5 @@
+benchmark_jsonl: examples/smoke/datasets/benchmark.jsonl
+retrieval_results_jsonl: artifacts/smoke/reports/retrieval/retrieval_results.jsonl
+answers_jsonl: artifacts/smoke/reports/generation/grounded_answers.jsonl
+detail_csv_path: artifacts/smoke/reports/evaluation/error_analysis_details.csv
+report_path: artifacts/smoke/reports/evaluation/error_analysis_report.md

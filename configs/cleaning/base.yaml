@@ -1,0 +1,14 @@
+input_jsonl: artifacts/smoke/processed/normalized_documents.jsonl
+output_jsonl: artifacts/smoke/processed/cleaned_documents.jsonl
+report_path: artifacts/smoke/reports/cleaning/cleaning_report.md
+source_aliases:
+  最高人民法院网站: 最高人民法院
+  法治日报-法治网: 法治网
+title_strip_patterns:
+  - '^\s*【[^】]+】'
+body_leading_patterns:
+  - '^\s*本文转自[:：]\s*(中国新闻网|中国政府网|法治网|新华网|人民日报|央视网)\s*'
+  - '^\s*原标题[:：]\s*[^\s]{1,40}\s*'
+body_global_patterns:
+  - '\s+'
+min_cleaned_length: 30

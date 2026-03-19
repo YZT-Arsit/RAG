@@ -1,0 +1,5 @@
+{"query_id":"q1","reference_answer":"本办法适用于在本市登记设立的中小企业及其经营管理活动。","supporting_chunk_ids":["examples/smoke/raw/legal_corpus_smoke.jsonl:0::structure::0"],"question_type":"definition","answerable":true,"metadata":{"title":"中小企业合规管理办法"}}
+{"query_id":"q2","reference_answer":"申请人提交行政复议申请时，应当附身份证明、申请书以及与被诉行政行为有关的主要证据材料。","supporting_chunk_ids":["examples/smoke/raw/legal_corpus_smoke.jsonl:1::structure::0"],"question_type":"procedure","answerable":true,"metadata":{"title":"行政复议工作规则"}}
+{"query_id":"q3","reference_answer":"用人单位应当建立劳动争议协商机制，及时回应劳动者合理诉求。","supporting_chunk_ids":["examples/smoke/raw/legal_corpus_smoke.jsonl:2::structure::0"],"question_type":"responsibility","answerable":true,"metadata":{"title":"劳动争议协商调解指引"}}
+{"query_id":"q4","reference_answer":"","supporting_chunk_ids":[],"question_type":"unanswerable","answerable":false,"metadata":{"title":"劳动争议协商调解指引"}}
+

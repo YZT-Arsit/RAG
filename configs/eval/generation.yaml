@@ -1,0 +1,5 @@
+answers_jsonl: artifacts/smoke/reports/generation/grounded_answers.jsonl
+gold_jsonl: examples/smoke/datasets/benchmark.jsonl
+detail_csv_path: artifacts/smoke/reports/evaluation/generation_eval_details.csv
+report_path: artifacts/smoke/reports/evaluation/generation_eval_report.md
+benchmark_mode: true

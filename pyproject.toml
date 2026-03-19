@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "legal-rag-zh"
+version = "0.1.0"
+description = "Production-style Chinese legal-domain RAG project with data audit and evaluation foundations."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "jieba>=0.42,<1",
+  "pydantic>=2.7,<3",
+  "PyYAML>=6.0,<7",
+  "rank-bm25>=0.2.2,<1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0,<9",
+  "ruff>=0.11,<0.12",
+]
+local-llm = [
+  "modelscope>=1.35,<2",
+  "transformers>=4.50,<6",
+  "torch>=2.5,<3",
+]
+
+[project.scripts]
+legal-rag = "legal_rag.cli.main:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

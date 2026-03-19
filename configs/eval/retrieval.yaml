@@ -1,0 +1,9 @@
+retrieval_results_jsonl: artifacts/smoke/reports/retrieval/retrieval_results.jsonl
+gold_jsonl: examples/smoke/datasets/benchmark.jsonl
+detail_csv_path: artifacts/smoke/reports/evaluation/retrieval_eval_details.csv
+report_path: artifacts/smoke/reports/evaluation/retrieval_eval_report.md
+benchmark_mode: true
+ks:
+  - 1
+  - 3
+  - 5
