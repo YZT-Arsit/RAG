@@ -115,25 +115,45 @@ flowchart TD
 
 > Benchmark size: **525** legal QA samples
 
-| Variant | Recall@1 | Recall@3 | Recall@5 | MRR |
+#### Full Benchmark (strict)
+
+| Variant | Recall@5 | MRR | Precision@5 | nDCG@5 |
 |---|---:|---:|---:|---:|
-| BM25 | 0.2457 | 0.4162 | 0.4933 | 0.3396 |
-| BM25 + MQ3 | 0.2457 | 0.4162 | 0.4952 | 0.3410 |
-| BM25 + MQ3 + HyDE | 0.2457 | 0.3943 | 0.4848 | 0.3320 |
-| **BM25 + MQ3 + BGE-Reranker** | **0.3705** | **0.5257** | **0.5781** | **0.4511** |
+| BM25 | 0.4933 | 0.3396 | 0.0998 | 0.3778 |
+| BM25 + MQ3 | 0.4952 | 0.3410 | 0.1002 | 0.3794 |
+| **BM25 + MQ3 + BGE-Reranker** | **0.5781** | **0.4511** | **0.1170** | **0.4827** |
+
+#### Answerable-Only Benchmark
+
+| Variant | Recall@5 | MRR | Precision@5 | nDCG@5 |
+|---|---:|---:|---:|---:|
+| BM25 | 0.5570 | 0.3834 | 0.1127 | 0.4265 |
+| BM25 + MQ3 | 0.5591 | 0.3850 | 0.1131 | 0.4284 |
+| **BM25 + MQ3 + BGE-Reranker** | **0.6527** | **0.5094** | **0.1320** | **0.5449** |
 
 #### Retrieval Takeaways
 
 - **Multi-Query** 带来小幅正收益
 - **HyDE** 为负收益，移除
 - **BGE-Reranker** 是最大的单点提升来源
+- 在 `answerable` 子集上，最终检索链路相对 BM25 baseline 提升为：
+  - `Recall@5`: `+0.0957`
+  - `MRR`: `+0.1260`
+  - `Precision@5`: `+0.0193`
+  - `nDCG@5`: `+0.1184`
 
-相对 BM25 baseline，最终检索链路提升为：
+#### Retrieval by Question Type
 
-- `Recall@1`: `+0.1248`
-- `Recall@3`: `+0.1095`
-- `Recall@5`: `+0.0848`
-- `MRR`: `+0.1115`
+| Question Type | Count | Recall@5 | MRR | Precision@5 | nDCG@5 |
+|---|---:|---:|---:|---:|---:|
+| Definition | 120 | 0.9250 | 0.8540 | 0.1850 | 0.8718 |
+| Comparison | 100 | 0.8350 | 0.6690 | 0.1740 | 0.7095 |
+| Condition | 100 | 0.6800 | 0.4303 | 0.1360 | 0.4927 |
+| Procedure | 70 | 0.3429 | 0.2076 | 0.0686 | 0.2414 |
+| Responsibility | 75 | 0.2267 | 0.1320 | 0.0453 | 0.1555 |
+| Unanswerable | 60 | 0.0000 | 0.0000 | 0.0000 | 0.0000 |
+
+这表明系统对**定义类**和**比较类**法律问题的表现最强，而**程序类**与**责任类**问题仍然是主要难点。
 
 ---
 
