@@ -193,14 +193,15 @@ def _score_auto_eval_sample(
     answer_tokens = set(_normalize_tokens(answer.answer))
     question_tokens = set(_normalize_tokens(sample.query))
     truth_tokens = set(_normalize_tokens(sample.ground_truth_answer))
+    evidence_tokens = set(_normalize_tokens(sample.evidence_text))
     context_precision = _context_precision(retrieval_result.hits, sample.ground_truth_chunk_id)
-    answer_relevance = (
+    answer_relevancy = (
         len(answer_tokens & question_tokens) / len(question_tokens)
         if question_tokens
         else 0.0
     )
     faithfulness = (
-        len(answer_tokens & set(_normalize_tokens(sample.evidence_text))) / len(answer_tokens)
+        len(answer_tokens & evidence_tokens) / len(answer_tokens)
         if answer_tokens
         else 0.0
     )
@@ -209,12 +210,15 @@ def _score_auto_eval_sample(
         if truth_tokens
         else 0.0
     )
+    citation_support_rate = _citation_support_rate(answer, sample)
     recall_at_3 = 1.0 if sample.ground_truth_chunk_id in retrieved_ids[:3] else 0.0
     recall_at_5 = 1.0 if sample.ground_truth_chunk_id in retrieved_ids[:5] else 0.0
     return {
         "faithfulness": faithfulness,
-        "answer_relevance": answer_relevance,
+        "answer_relevancy": answer_relevancy,
+        "answer_relevance": answer_relevancy,
         "context_precision": context_precision,
+        "citation_support_rate": citation_support_rate,
         "answer_correctness": answer_correctness,
         "recall@3": recall_at_3,
         "recall@5": recall_at_5,
@@ -232,6 +236,15 @@ def _context_precision(hits: list[RetrievalHit], ground_truth_chunk_id: str) -> 
         hit_count += 1
         precision_sum += hit_count / index
     return precision_sum / hit_count if hit_count else 0.0
+
+
+def _citation_support_rate(answer: GroundedAnswer, sample: AutoEvalSample) -> float:
+    if not answer.used_context_ids:
+        return 0.0
+    supported = sum(
+        1 for chunk_id in answer.used_context_ids if chunk_id == sample.ground_truth_chunk_id
+    )
+    return supported / len(answer.used_context_ids)
 
 
 def _process_retrieval_result(

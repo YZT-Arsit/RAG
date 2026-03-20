@@ -29,7 +29,46 @@ def test_evaluate_retrieval_computes_recall_and_mrr() -> None:
     gold = [RetrievalGoldRecord(query_id="q1", relevant_chunk_ids=["c1", "c2"])]
     _, summary = evaluate_retrieval(results, gold, ks=[1])
     assert summary["recall@1"] == 0.5
+    assert summary["precision@1"] == 1.0
+    assert summary["ndcg@1"] == 1.0
     assert summary["mrr"] == 1.0
+
+
+def test_evaluate_retrieval_computes_partial_ndcg_and_precision() -> None:
+    results = [
+        RetrievalResult(
+            query=QueryRecord(query_id="q1", query_text="查询"),
+            hits=[
+                RetrievalHit(
+                    query_id="q1",
+                    query_text="查询",
+                    chunk_id="c3",
+                    doc_id="d1",
+                    rank=1,
+                    score=1.0,
+                    retrieval_method="bm25",
+                    chunk_text="正文",
+                    title="标题",
+                ),
+                RetrievalHit(
+                    query_id="q1",
+                    query_text="查询",
+                    chunk_id="c1",
+                    doc_id="d1",
+                    rank=2,
+                    score=0.8,
+                    retrieval_method="bm25",
+                    chunk_text="正文",
+                    title="标题",
+                ),
+            ],
+        )
+    ]
+    gold = [RetrievalGoldRecord(query_id="q1", relevant_chunk_ids=["c1", "c2"])]
+    _, summary = evaluate_retrieval(results, gold, ks=[2])
+    assert summary["recall@2"] == 0.5
+    assert summary["precision@2"] == 0.5
+    assert 0.0 < summary["ndcg@2"] < 1.0
 
 
 def test_evaluate_generation_computes_token_overlap_and_citation_metrics() -> None:

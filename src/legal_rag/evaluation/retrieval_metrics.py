@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from math import log2
 from statistics import mean
 
 from legal_rag.schemas.evaluation import MetricRecord, RetrievalGoldRecord
@@ -26,6 +27,8 @@ def evaluate_retrieval(
             hits = len([chunk_id for chunk_id in topk if chunk_id in relevant])
             metrics[f"recall@{k}"] = hits / len(relevant) if relevant else 0.0
             metrics[f"hit@{k}"] = 1.0 if hits > 0 else 0.0
+            metrics[f"precision@{k}"] = hits / len(topk) if topk else 0.0
+            metrics[f"ndcg@{k}"] = _ndcg(topk, relevant, k)
         metrics["mrr"] = _mrr(retrieved_ids, relevant)
         per_query.append(MetricRecord(query_id=result.query.query_id, metrics=metrics))
 
@@ -38,6 +41,20 @@ def _mrr(retrieved_ids: list[str], relevant: set[str]) -> float:
         if chunk_id in relevant:
             return 1.0 / rank
     return 0.0
+
+
+def _ndcg(retrieved_ids: list[str], relevant: set[str], k: int) -> float:
+    if not relevant or k <= 0:
+        return 0.0
+    dcg = 0.0
+    for rank, chunk_id in enumerate(retrieved_ids[:k], start=1):
+        if chunk_id in relevant:
+            dcg += 1.0 / log2(rank + 1)
+    ideal_hits = min(len(relevant), k)
+    if ideal_hits == 0:
+        return 0.0
+    idcg = sum(1.0 / log2(rank + 1) for rank in range(1, ideal_hits + 1))
+    return dcg / idcg if idcg else 0.0
 
 
 def _aggregate_metric_records(records: list[MetricRecord]) -> dict[str, float]:
