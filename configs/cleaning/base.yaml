@@ -1,6 +1,6 @@
-input_jsonl: artifacts/smoke/processed/normalized_documents.jsonl
-output_jsonl: artifacts/smoke/processed/cleaned_documents.jsonl
-report_path: artifacts/smoke/reports/cleaning/cleaning_report.md
+input_jsonl: data/processed/legal_corpus_smoke_normalized.jsonl
+output_jsonl: data/processed/legal_corpus_smoke_cleaned.jsonl
+report_path: data/reports/legal_corpus_smoke/cleaning_report.md
 source_aliases:
   最高人民法院网站: 最高人民法院
   法治日报-法治网: 法治网

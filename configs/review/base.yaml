@@ -1,6 +1,6 @@
-input_jsonl: artifacts/smoke/processed/cleaned_documents.jsonl
-detail_csv: artifacts/smoke/reports/audit/audit_details.csv
-output_csv: artifacts/smoke/reports/cleaning/review_samples.csv
+input_jsonl: data/processed/legal_corpus_smoke_cleaned.jsonl
+detail_csv: data/reports/legal_corpus_smoke/audit_details.csv
+output_csv: data/reports/legal_corpus_smoke/review_samples.csv
 random_sample_size: 10
 anomaly_sample_size: 10
 duplicate_sample_size: 10

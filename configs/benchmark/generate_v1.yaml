@@ -1,8 +1,8 @@
-input_chunk_jsonl: artifacts/smoke/processed/chunks.jsonl
-candidates_output_jsonl: artifacts/smoke/datasets/benchmark_candidates.jsonl
-deduped_output_jsonl: artifacts/smoke/datasets/benchmark_candidates_deduped.jsonl
-benchmark_output_jsonl: artifacts/smoke/datasets/benchmark_generated.jsonl
-report_path: artifacts/smoke/reports/evaluation/benchmark_generation_report.md
+input_chunk_jsonl: data/processed/legal_corpus_smoke_chunks.jsonl
+candidates_output_jsonl: data/datasets/benchmark_candidates_1000.jsonl
+deduped_output_jsonl: data/datasets/benchmark_candidates_deduped.jsonl
+benchmark_output_jsonl: data/datasets/benchmark_v1_240.jsonl
+report_path: data/reports/benchmark_generation_report.md
 preferred_chunk_method: structure
 target_candidate_count: 1000
 candidate_target_counts:

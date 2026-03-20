@@ -1,0 +1,14 @@
+input_paths:
+  - 法律领域语料库/法律领域语料库1.json
+  - 法律领域语料库/法律领域语料库2.json
+output_dir: data/reports/legal_corpus_audit
+normalized_output_path: data/processed/legal_corpus_normalized.jsonl
+detail_csv_path: data/reports/legal_corpus_audit/audit_details.csv
+report_path: data/reports/legal_corpus_audit/audit_report.md
+sample_limit: null
+min_body_length: 50
+near_duplicate_hamming_threshold: 3
+near_duplicate_prefix_bits: 16
+short_body_threshold: 30
+template_similarity_line_threshold: 0.6
+year_regex: '(19|20)\d{2}'

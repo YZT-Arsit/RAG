@@ -1,5 +1,5 @@
-benchmark_jsonl: examples/smoke/datasets/benchmark.jsonl
-retrieval_results_jsonl: artifacts/smoke/reports/retrieval/retrieval_results.jsonl
-answers_jsonl: artifacts/smoke/reports/generation/grounded_answers.jsonl
-detail_csv_path: artifacts/smoke/reports/evaluation/error_analysis_details.csv
-report_path: artifacts/smoke/reports/evaluation/error_analysis_report.md
+benchmark_jsonl: data/datasets/legal_corpus_smoke_benchmark.jsonl
+retrieval_results_jsonl: data/reports/legal_corpus_smoke/retrieval_results.jsonl
+answers_jsonl: data/reports/legal_corpus_smoke/grounded_answers.jsonl
+detail_csv_path: data/reports/legal_corpus_smoke/error_analysis_details.csv
+report_path: data/reports/legal_corpus_smoke/error_analysis_report.md

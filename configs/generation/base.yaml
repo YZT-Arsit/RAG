@@ -1,6 +1,6 @@
-retrieval_results_jsonl: artifacts/smoke/reports/context/processed_contexts.jsonl
-output_jsonl: artifacts/smoke/reports/generation/grounded_answers.jsonl
-report_path: artifacts/smoke/reports/generation/generation_report.md
+retrieval_results_jsonl: data/reports/legal_corpus_smoke/processed_contexts.jsonl
+output_jsonl: data/reports/legal_corpus_smoke/grounded_answers.jsonl
+report_path: data/reports/legal_corpus_smoke/generation_report.md
 method: extractive
 context_source: processed
 max_contexts: 3
@@ -16,6 +16,3 @@ llm_timeout_seconds: 60
 llm_prompt_version: v1
 llm_require_context_ids: true
 llm_abstain_when_insufficient: true
-guardrail_enabled: true
-guardrail_nli_enabled: true
-guardrail_require_citation_brackets: false

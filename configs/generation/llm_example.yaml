@@ -1,6 +1,6 @@
-retrieval_results_jsonl: artifacts/smoke/reports/context/processed_contexts.jsonl
-output_jsonl: artifacts/smoke/reports/generation/grounded_answers_llm.jsonl
-report_path: artifacts/smoke/reports/generation/generation_report_llm.md
+retrieval_results_jsonl: data/reports/legal_corpus_smoke/processed_contexts.jsonl
+output_jsonl: data/reports/legal_corpus_smoke/grounded_answers_llm.jsonl
+report_path: data/reports/legal_corpus_smoke/generation_report_llm.md
 method: llm
 context_source: processed
 max_contexts: 3

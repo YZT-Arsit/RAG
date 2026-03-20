@@ -1,0 +1,9 @@
+input_jsonl: data/processed/legal_corpus_parts/part_09
+output_jsonl: data/processed/legal_corpus_parts/part_09_chunks.jsonl
+report_path: data/reports/legal_corpus_parts/part_09_chunking_report.md
+method: structure
+fixed_chunk_size: 500
+fixed_chunk_overlap: 100
+structure_max_chunk_size: 1200
+structure_min_chunk_size: 200
+structure_sentence_overlap: 0

@@ -1,8 +1,8 @@
 experiment_name: smoke_matrix_v1
-cleaned_input_jsonl: artifacts/smoke/processed/cleaned_documents.jsonl
-query_jsonl: examples/smoke/datasets/queries.jsonl
-benchmark_jsonl: examples/smoke/datasets/benchmark.jsonl
-output_root: artifacts/experiments
+cleaned_input_jsonl: data/processed/legal_corpus_smoke_cleaned.jsonl
+query_jsonl: data/datasets/legal_corpus_smoke_queries.jsonl
+benchmark_jsonl: data/datasets/legal_corpus_smoke_benchmark.jsonl
+output_root: data/experiments
 chunk_fixed_chunk_size: 500
 chunk_fixed_overlap: 100
 chunk_structure_max_size: 800

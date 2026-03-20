@@ -1,0 +1,14 @@
+input_jsonl: data/processed/legal_corpus_normalized.jsonl
+output_jsonl: data/processed/legal_corpus_cleaned.jsonl
+report_path: data/reports/legal_corpus/cleaning_report.md
+source_aliases:
+  最高人民法院网站: 最高人民法院
+  法治日报-法治网: 法治网
+title_strip_patterns:
+- ^\s*【[^】]+】
+body_leading_patterns:
+- ^\s*本文转自[:：]\s*(中国新闻网|中国政府网|法治网|新华网|人民日报|央视网)\s*
+- ^\s*原标题[:：]\s*[^\s]{1,40}\s*
+body_global_patterns:
+- \s+
+min_cleaned_length: 30

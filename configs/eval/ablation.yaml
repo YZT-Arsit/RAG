@@ -1,5 +1,5 @@
-report_path: artifacts/smoke/reports/evaluation/ablation_report.md
+report_path: data/reports/legal_corpus_smoke/ablation_report.md
 variants:
   - name: hybrid_extractive
-    retrieval_report_path: artifacts/smoke/reports/evaluation/retrieval_eval_report.md
-    generation_report_path: artifacts/smoke/reports/evaluation/generation_eval_report.md
+    retrieval_report_path: data/reports/legal_corpus_smoke/retrieval_eval_report.md
+    generation_report_path: data/reports/legal_corpus_smoke/generation_eval_report.md

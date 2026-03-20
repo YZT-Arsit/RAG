@@ -1,9 +1,10 @@
 input_paths:
-  - examples/smoke/raw/legal_corpus_smoke.jsonl
-output_dir: artifacts/smoke/reports/audit
-normalized_output_path: artifacts/smoke/processed/normalized_documents.jsonl
-detail_csv_path: artifacts/smoke/reports/audit/audit_details.csv
-report_path: artifacts/smoke/reports/audit/audit_report.md
+  - data/raw/policies_1.jsonl
+  - data/raw/policies_2.json
+output_dir: data/reports/audit_run
+normalized_output_path: data/processed/normalized_documents.jsonl
+detail_csv_path: data/reports/audit_run/audit_details.csv
+report_path: data/reports/audit_run/audit_report.md
 sample_limit: null
 min_body_length: 50
 near_duplicate_hamming_threshold: 3

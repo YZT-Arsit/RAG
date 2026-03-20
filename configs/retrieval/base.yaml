@@ -1,7 +1,7 @@
-chunk_jsonl: artifacts/smoke/processed/chunks.jsonl
-query_jsonl: examples/smoke/datasets/queries.jsonl
-output_jsonl: artifacts/smoke/reports/retrieval/retrieval_results.jsonl
-report_path: artifacts/smoke/reports/retrieval/retrieval_report.md
+chunk_jsonl: data/processed/legal_corpus_smoke_chunks.jsonl
+query_jsonl: data/datasets/legal_corpus_smoke_queries.jsonl
+output_jsonl: data/reports/legal_corpus_smoke/retrieval_results.jsonl
+report_path: data/reports/legal_corpus_smoke/retrieval_report.md
 method: hybrid
 top_k: 5
 retrieve_top_k: 20

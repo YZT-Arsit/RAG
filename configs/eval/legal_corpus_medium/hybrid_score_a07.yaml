@@ -1,0 +1,9 @@
+retrieval_results_jsonl: data/reports/legal_corpus_medium/hybrid_score_a07/retrieval_results.jsonl
+gold_jsonl: data/datasets/legal_corpus_benchmark_v2_600.jsonl
+detail_csv_path: data/reports/legal_corpus_medium/hybrid_score_a07/retrieval_eval_details.csv
+report_path: data/reports/legal_corpus_medium/hybrid_score_a07/retrieval_eval_report.md
+benchmark_mode: true
+ks:
+- 1
+- 3
+- 5

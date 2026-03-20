@@ -1,2 +1,2 @@
-benchmark_jsonl: examples/smoke/datasets/benchmark.jsonl
-report_path: artifacts/smoke/reports/evaluation/benchmark_validation_report.md
+benchmark_jsonl: data/datasets/legal_corpus_smoke_benchmark.jsonl
+report_path: data/reports/legal_corpus_smoke/benchmark_validation_report.md
