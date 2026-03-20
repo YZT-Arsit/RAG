@@ -4,7 +4,7 @@
 
 **面向中文法律文档的结构化检索增强生成系统**
 
-一个聚焦**中文法律 / 政策文档**的 RAG 工程实践：从结构化切块、检索增强、精排、引用生成到自动化评估，强调**可复现、可解释、可对比**。
+一个聚焦**中文法律 / 政策文档**的 RAG 工程实践：从结构化切块、检索增强、精排、引用生成到自动化评估，**可复现、可解释、可对比**。
 
 <p>
   <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white" />
@@ -25,7 +25,6 @@
 - 用户问题通常口语化，与正式法律术语存在语义鸿沟
 - 检索结果必须服务于**有据可查**的回答，而不是仅追求语义相似
 - 法律场景对幻觉容忍度低，需要引用、拒答和一致性约束
-- RAG 效果必须通过 benchmark 与对照实验验证，而不是只靠主观体验
 
 ---
 
@@ -84,8 +83,6 @@ flowchart TD
 - 款 / 项
 - 标题与条文前导信息
 
-这样做可以减少跨条文拼接带来的语义污染，提高法律检索和引用对齐的稳定性。
-
 ### 2. Why the Final Retrieval Stack Is BM25-Centered
 
 本项目早期也实现了 dense / hybrid baseline，但当前 dense 检索器仍是**research-style in-memory baseline**，不是 ANN / 向量数据库方案。  
@@ -104,13 +101,11 @@ flowchart TD
 
 ### 4. Retrieval First, Then Generation
 
-项目的优化顺序是：
+项目优化顺序：
 
-1. 先把检索链路打稳
+1. 先建检索链路
 2. 再做 context processing
 3. 最后对比 extractive 与 grounded generation
-
-这样每一层的收益都可以单独解释，而不是把所有改动混在一起。
 
 ---
 
@@ -130,7 +125,7 @@ flowchart TD
 #### Retrieval Takeaways
 
 - **Multi-Query** 带来小幅正收益
-- **HyDE** 为负收益，被移除
+- **HyDE** 为负收益，移除
 - **BGE-Reranker** 是最大的单点提升来源
 
 相对 BM25 baseline，最终检索链路提升为：
@@ -251,15 +246,7 @@ These configs correspond to the benchmark results summarized above.
   - 前排精度
   - 引用可靠性
   - 拒答行为
-- 用 benchmark 驱动方法选择，而不是凭经验拍脑袋调参
-
----
-
-## Limitations
-
-- 当前 dense retriever 仍是 research-style baseline，不是生产级 ANN 检索
-- 生成层评估中的部分指标仍是轻量近似指标，不应过度解读
-- 当前 benchmark 已具备实验价值，但未来仍可继续扩展规模与标注质量
+- 用 benchmark 驱动方法选择
 
 ---
 
@@ -276,7 +263,3 @@ These configs correspond to the benchmark results summarized above.
 - [ ] 更大规模 benchmark 与自动化评测闭环
 
 ---
-
-## License
-
-MIT.
