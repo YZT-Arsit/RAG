@@ -8,11 +8,9 @@
 
 <p>
   <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white" />
-  <img src="https://img.shields.io/badge/License-MIT-111111.svg" />
   <img src="https://img.shields.io/badge/Domain-Chinese%20Legal%20RAG-8A2BE2" />
   <img src="https://img.shields.io/badge/Retrieval-BM25%20%2B%20MQ3%20%2B%20BGE--Reranker-2EA44F" />
   <img src="https://img.shields.io/badge/Generation-LLM%20Grounded-FF6B6B" />
-  <img src="https://img.shields.io/badge/PRs-Welcome-31C653.svg" />
 </p>
 
 </div>
