@@ -8,4 +8,6 @@ __pycache__/
 *.egg-info/
 
 artifacts/
-
+data/
+*.tar.gz
+法律领域语料库/

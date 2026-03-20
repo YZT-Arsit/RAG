@@ -1,0 +1,9 @@
+input_retrieval_results_jsonl: data/reports/legal_corpus_bm25_qt/bm25_mq3_bge_rerank/retrieval_results.jsonl
+output_jsonl: data/reports/legal_corpus_bm25_qt/bm25_mq3_bge_rerank/processed_contexts.jsonl
+report_path: data/reports/legal_corpus_bm25_qt/bm25_mq3_bge_rerank/context_report.md
+dedupe_enabled: true
+max_chunks: 5
+max_per_doc: 2
+compression_enabled: true
+max_sentences_total: 8
+max_sentences_per_chunk: 2

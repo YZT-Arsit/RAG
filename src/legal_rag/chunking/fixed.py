@@ -116,9 +116,6 @@ def _chunk_by_sentences(
             )
             chunk_index += 1
 
-        if sentence_index >= len(sentences):
-            break
-
         sentence_index = _rewind_sentence_index(
             sentences,
             current_index=sentence_index,

@@ -33,6 +33,32 @@ def write_chunks(path: Path, chunks: list[Chunk]) -> None:
             handle.write(json.dumps(payload, ensure_ascii=False) + "\n")
 
 
+def append_chunks(path: Path, chunks) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8") as handle:
+        for chunk in chunks:
+            payload = {
+                "chunk_id": chunk.chunk_id,
+                "doc_id": chunk.doc_id,
+                "chunk_index": chunk.chunk_index,
+                "chunk_method": chunk.chunk_method,
+                "text": chunk.text,
+                "text_length": chunk.text_length,
+                "start_char": chunk.start_char,
+                "end_char": chunk.end_char,
+                "title": chunk.title,
+                "source_file": chunk.source_file,
+                "publish_source": chunk.publish_source,
+                "canonical_source": chunk.canonical_source,
+                "published_year": chunk.published_year,
+                "section_path": chunk.section_path,
+                "structure_labels": chunk.structure_labels,
+                "quality_flags": chunk.quality_flags,
+                "metadata": chunk.metadata,
+            }
+            handle.write(json.dumps(payload, ensure_ascii=False) + "\n")
+
+
 def iter_chunks(path: Path) -> Iterator[Chunk]:
     with path.open("r", encoding="utf-8") as handle:
         for line in handle:
@@ -59,3 +85,28 @@ def iter_chunks(path: Path) -> Iterator[Chunk]:
                 quality_flags=payload.get("quality_flags", []),
                 metadata=payload.get("metadata", {}),
             )
+
+def append_chunks(path: Path, chunks) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8") as handle:
+        for chunk in chunks:
+            payload = {
+                "chunk_id": chunk.chunk_id,
+                "doc_id": chunk.doc_id,
+                "chunk_index": chunk.chunk_index,
+                "chunk_method": chunk.chunk_method,
+                "text": chunk.text,
+                "text_length": chunk.text_length,
+                "start_char": chunk.start_char,
+                "end_char": chunk.end_char,
+                "title": chunk.title,
+                "source_file": chunk.source_file,
+                "publish_source": chunk.publish_source,
+                "canonical_source": chunk.canonical_source,
+                "published_year": chunk.published_year,
+                "section_path": chunk.section_path,
+                "structure_labels": chunk.structure_labels,
+                "quality_flags": chunk.quality_flags,
+                "metadata": chunk.metadata,
+            }
+            handle.write(json.dumps(payload, ensure_ascii=False) + "\n")

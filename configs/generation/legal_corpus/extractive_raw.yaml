@@ -1,0 +1,11 @@
+retrieval_results_jsonl: data/reports/legal_corpus_bm25_qt/bm25_mq3_bge_rerank/retrieval_results.jsonl
+output_jsonl: data/reports/legal_corpus_bm25_qt/generation_extractive_raw/answers.jsonl
+report_path: data/reports/legal_corpus_bm25_qt/generation_extractive_raw/report.md
+method: extractive
+context_source: raw
+max_contexts: 4
+max_answer_sentences: 3
+max_citation_chars: 180
+max_prompt_context_chars: 300
+min_hit_score: 0.0
+guardrail_enabled: false

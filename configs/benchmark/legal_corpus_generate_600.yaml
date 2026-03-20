@@ -1,0 +1,28 @@
+input_chunk_jsonl: data/processed/legal_corpus_chunks.jsonl
+candidates_output_jsonl: data/datasets/legal_corpus_benchmark_candidates_3000.jsonl
+deduped_output_jsonl: data/datasets/legal_corpus_benchmark_candidates_deduped.jsonl
+benchmark_output_jsonl: data/datasets/legal_corpus_benchmark_v2_600.jsonl
+report_path: data/reports/legal_corpus/benchmark_generation_report.md
+preferred_chunk_method: structure
+target_candidate_count: 3000
+candidate_target_counts:
+  definition: 600
+  condition: 600
+  procedure: 600
+  responsibility: 450
+  comparison: 450
+  unanswerable: 300
+final_target_counts:
+  definition: 120
+  condition: 100
+  procedure: 70
+  responsibility: 75
+  comparison: 100
+  unanswerable: 60
+min_chunk_text_length: 80
+min_question_chars: 8
+max_question_chars: 80
+semantic_dedup_threshold: 0.82
+min_question_evidence_overlap: 0.12
+max_candidates_per_doc_per_type: 6
+random_seed: 42

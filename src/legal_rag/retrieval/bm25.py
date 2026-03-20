@@ -62,11 +62,13 @@ class BM25Retriever:
             key=lambda item: item[1],
             reverse=True,
         )
-        scored_chunks = [
-            (self.chunks[index], float(score), index)
-            for index, score in ranked[:top_k]
-            if score > 0
-        ]
+        scored_chunks = []
+        for index, score in ranked[:top_k]:
+            chunk = self.chunks[index]
+            chunk_tokens = self.doc_tokens[index]
+            lexical_overlap = len(set(query_tokens) & set(chunk_tokens))
+            if score > 0 or lexical_overlap > 0:
+                scored_chunks.append((chunk, float(score), index))
         return _build_hits(retrieval_query, scored_chunks, method="bm25", top_k=top_k)
 
     def _compute_doc_freqs(self) -> Counter[str]:

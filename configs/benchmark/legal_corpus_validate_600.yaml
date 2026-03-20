@@ -1,0 +1,2 @@
+benchmark_jsonl: data/datasets/legal_corpus_benchmark_v2_600.jsonl
+report_path: data/reports/legal_corpus/benchmark_v2_600_validation_report.md

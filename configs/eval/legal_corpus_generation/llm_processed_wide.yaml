@@ -1,0 +1,5 @@
+answers_jsonl: data/reports/legal_corpus_bm25_qt/generation_llm_processed_wide/answers.jsonl
+gold_jsonl: data/datasets/legal_corpus_benchmark_v2_600.jsonl
+detail_csv_path: data/reports/legal_corpus_bm25_qt/generation_llm_processed_wide/eval_details.csv
+report_path: data/reports/legal_corpus_bm25_qt/generation_llm_processed_wide/eval_report.md
+benchmark_mode: true
