@@ -9,7 +9,7 @@
 <p>
   <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white" />
   <img src="https://img.shields.io/badge/Domain-Chinese%20Legal%20RAG-8A2BE2" />
-  <img src="https://img.shields.io/badge/Retrieval-BM25%20%2B%20MQ3%20%2B%20BGE--Reranker-2EA44F" />
+  <img src="https://img.shields.io/badge/Retrieval-BM25%20%2B%20Faiss%20Dense%20%2B%20MQ3%20%2B%20BGE--Reranker-2EA44F" />
   <img src="https://img.shields.io/badge/Generation-LLM%20Grounded-FF6B6B" />
 </p>
 
@@ -33,7 +33,7 @@
 - ⚖️ **结构化法律切块**
   - 针对“章-节-条-款-项”层级做结构感知切分，尽量保留法律语义单元
 - 🔍 **法律检索增强**
-  - 基于 **BM25** 做主检索，并在检索前加入 **DeepSeek Multi-Query**
+  - 基于 **BM25 + Faiss Dense(BGE-M3)** 做混合检索，并在检索前加入 **DeepSeek Multi-Query**
 - 🧠 **Cross-Encoder 精排**
   - 使用 **BGE-Reranker v2** 对候选片段重排序，提升前排命中质量
 - 🧾 **Grounded Generation**
@@ -57,8 +57,11 @@ flowchart TD
     D --> E["Chunk Corpus"]
 
     Q["User Query"] --> QT["Query Transformation<br/>(DeepSeek Multi-Query)"]
-    QT --> R["BM25 Retrieval"]
-    R --> RR["BGE-Reranker v2"]
+    QT --> R1["BM25 Retrieval"]
+    QT --> R2["Faiss Dense Retrieval<br/>(BGE-M3 Embeddings)"]
+    R1 --> HF["Hybrid Fusion"]
+    R2 --> HF
+    HF --> RR["BGE-Reranker v2"]
     RR --> CP["Context Processing<br/>(dedupe / selection / compression)"]
     CP --> G["LLM Grounded Generation"]
     G --> CA["Citation Alignment"]
@@ -83,16 +86,22 @@ flowchart TD
 - 款 / 项
 - 标题与条文前导信息
 
-### 2. Why the Final Retrieval Stack Is BM25-Centered
+### 2. Why the Final Retrieval Stack Is Hybrid
 
-本项目早期也实现了 dense / hybrid baseline，但当前 dense 检索器仍是**research-style in-memory baseline**，不是 ANN / 向量数据库方案。  
-因此在更大规模实验上，最终主线选择了：
+项目早期的 dense 检索器是 **research-style in-memory baseline**。后续已补齐：
 
-- **BM25**：作为稳定主检索
+- **BGE-M3 embeddings**
+- **Faiss persistent vector index**
+- **dense retrieval over saved index**
+
+在此基础上，最终检索主线并不是 `dense-only`，而是：
+
+- **BM25**：保留法律检索中的强词面信号
+- **Faiss Dense(BGE-M3)**：补充语义召回
 - **Multi-Query**：解决口语化问题与法律术语之间的表达差异
 - **BGE-Reranker v2**：提升 Top-K 排序质量
 
-这条路线更贴合当前实现边界，也更适合做可复现 benchmark。
+实验表明，**dense-only 不适合作为中文法律场景的主检索路径，但作为 hybrid 补充信号是有效的。**
 
 ### 3. Why HyDE Was Removed
 
@@ -121,7 +130,9 @@ flowchart TD
 |---|---:|---:|---:|---:|
 | BM25 | 0.4933 | 0.3396 | 0.0998 | 0.3778 |
 | BM25 + MQ3 | 0.4952 | 0.3410 | 0.1002 | 0.3794 |
-| **BM25 + MQ3 + BGE-Reranker** | **0.5781** | **0.4511** | **0.1170** | **0.4827** |
+| BM25 + MQ3 + BGE-Reranker (top50) | 0.5867 | 0.4507 | 0.1185 | 0.4844 |
+| Dense(Faiss + BGE-M3) | 0.2533 | 0.1634 | 0.0514 | 0.1847 |
+| **Hybrid(Faiss) + MQ3 + BGE-Reranker** | **0.6152** | **0.4725** | **0.1242** | **0.5080** |
 
 #### Answerable-Only Benchmark
 
@@ -136,6 +147,12 @@ flowchart TD
 - **Multi-Query** 带来小幅正收益
 - **HyDE** 为负收益，移除
 - **BGE-Reranker** 是最大的单点提升来源
+- **Faiss dense-only** 明显弱于 BM25，说明法律检索不能用纯向量替代关键词检索
+- **Hybrid(Faiss)** 在全量 benchmark 上相对 `BM25 + MQ3 + BGE-Reranker(top50)` 继续提升：
+  - `Recall@5`: `+0.0285`
+  - `MRR`: `+0.0218`
+  - `Precision@5`: `+0.0057`
+  - `nDCG@5`: `+0.0236`
 - 在 `answerable` 子集上，最终检索链路相对 BM25 baseline 提升为：
   - `Recall@5`: `+0.0957`
   - `MRR`: `+0.1260`
@@ -159,7 +176,7 @@ flowchart TD
 
 ### Generation Benchmark
 
-> 基于最优检索链路：`BM25 + MQ3 + BGE-Reranker`
+> 基于生成主实验最优检索链路：`BM25 + MQ3 + BGE-Reranker`
 
 | Variant | Answer Correctness | Citation Precision | Citation Recall | Abstain Accuracy |
 |---|---:|---:|---:|---:|
@@ -183,6 +200,7 @@ flowchart TD
 ### Retrieval
 
 - **BM25**
+- **Faiss Dense Retrieval (BGE-M3)**
 - **DeepSeek Multi-Query**
 - **BGE-Reranker v2**
 
@@ -256,6 +274,11 @@ This repository includes interview/demo-oriented configs for:
 
 These configs correspond to the benchmark results summarized above.
 
+The repository also includes Faiss dense indexing examples:
+
+- `configs/retrieval/build_dense_index.example.yaml`
+- `configs/retrieval/dense_faiss.example.yaml`
+
 ---
 
 ## Project Goals
@@ -276,10 +299,11 @@ These configs correspond to the benchmark results summarized above.
 - [x] BM25 检索基线
 - [x] Query Transformation（Multi-Query / HyDE）
 - [x] BGE-Reranker 精排
+- [x] Faiss + BGE-M3 向量索引
 - [x] Grounded Generation + Citation Alignment
 - [x] Benchmark Generation / Validation / Ablation
-- [ ] 用真正向量索引替换 research dense baseline
 - [ ] 更强的法律领域 reranker / judge
 - [ ] 更大规模 benchmark 与自动化评测闭环
+- [ ] 独立向量服务与增量索引更新
 
 ---

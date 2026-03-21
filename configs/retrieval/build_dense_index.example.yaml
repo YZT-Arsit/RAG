@@ -1,0 +1,9 @@
+chunk_jsonl: data/processed/legal_corpus_chunks.jsonl
+output_dir: data/indexes/legal_corpus_faiss
+report_path: data/reports/legal_corpus_faiss/dense_index_report.md
+partition_by_chunk_method: true
+dense_model_name: BAAI/bge-m3
+dense_use_modelscope_download: true
+dense_device: cuda
+dense_batch_size: 16
+dense_max_length: 512

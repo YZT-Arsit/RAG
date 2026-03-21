@@ -25,6 +25,13 @@ local-llm = [
   "transformers>=4.50,<6",
   "torch>=2.5,<3",
 ]
+vector-index = [
+  "faiss-cpu>=1.8,<2",
+  "numpy>=1.26,<3",
+  "transformers>=4.50,<6",
+  "torch>=2.5,<3",
+  "modelscope>=1.35,<2",
+]
 
 [project.scripts]
 legal-rag = "legal_rag.cli.main:main"

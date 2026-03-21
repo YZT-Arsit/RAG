@@ -1,0 +1,15 @@
+chunk_jsonl: data/processed/legal_corpus_chunks.jsonl
+query_jsonl: data/datasets/legal_corpus_benchmark_v2_600_queries.jsonl
+output_jsonl: data/reports/legal_corpus_faiss/dense/retrieval_results.jsonl
+report_path: data/reports/legal_corpus_faiss/dense/retrieval_report.md
+method: dense
+top_k: 5
+retrieve_top_k: 20
+dense_backend: faiss
+dense_index_dir: data/indexes/legal_corpus_faiss
+dense_model_name: BAAI/bge-m3
+dense_use_modelscope_download: true
+dense_device: cuda
+dense_batch_size: 16
+dense_max_length: 512
+reranker_enabled: false

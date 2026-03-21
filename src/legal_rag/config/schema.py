@@ -63,7 +63,16 @@ class RetrievalConfig(BaseModel):
     retrieve_top_k: int = Field(default=20, ge=1)
     bm25_k1: float = Field(default=1.5, gt=0)
     bm25_b: float = Field(default=0.75, ge=0, le=1)
+    dense_backend: str = Field(default="baseline", pattern="^(baseline|faiss)$")
     dense_ngram: int = Field(default=3, ge=1)
+    dense_index_dir: Path | None = None
+    dense_model_name: str | None = None
+    dense_modelscope_model_id: str | None = None
+    dense_local_model_dir: Path | None = None
+    dense_use_modelscope_download: bool = False
+    dense_device: str = Field(default="auto", pattern="^(auto|cuda|mps|cpu)$")
+    dense_batch_size: int = Field(default=16, ge=1)
+    dense_max_length: int = Field(default=512, ge=1)
     hybrid_fusion: str = Field(default="score", pattern="^(score|rrf)$")
     hybrid_alpha: float = Field(default=0.5, ge=0.0, le=1.0)
     rrf_k: int = Field(default=60, ge=1)
@@ -134,6 +143,20 @@ class GenerationConfig(BaseModel):
     guardrail_fail_message: str = (
         "抱歉，根据现有法律库无法给出确切回答，请咨询专业律师。"
     )
+
+
+class DenseIndexBuildConfig(BaseModel):
+    chunk_jsonl: Path
+    output_dir: Path
+    report_path: Path
+    partition_by_chunk_method: bool = True
+    dense_model_name: str | None = None
+    dense_modelscope_model_id: str | None = None
+    dense_local_model_dir: Path | None = None
+    dense_use_modelscope_download: bool = False
+    dense_device: str = Field(default="auto", pattern="^(auto|cuda|mps|cpu)$")
+    dense_batch_size: int = Field(default=16, ge=1)
+    dense_max_length: int = Field(default=512, ge=1)
 
 
 class LLMGenerationDebugConfig(BaseModel):

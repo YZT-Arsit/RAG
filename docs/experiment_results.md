@@ -17,6 +17,8 @@ This document summarizes the benchmark-backed conclusions currently reflected in
 - BM25 + Multi-Query
 - BM25 + Multi-Query + HyDE
 - BM25 + Multi-Query + BGE-Reranker
+- Dense(Faiss + BGE-M3)
+- Hybrid(Faiss) + Multi-Query + BGE-Reranker
 
 ### Full Benchmark (strict)
 
@@ -24,7 +26,9 @@ This document summarizes the benchmark-backed conclusions currently reflected in
 |---|---:|---:|---:|---:|
 | BM25 | 0.4933 | 0.3396 | 0.0998 | 0.3778 |
 | BM25 + MQ3 | 0.4952 | 0.3410 | 0.1002 | 0.3794 |
-| **BM25 + MQ3 + BGE-Reranker** | **0.5781** | **0.4511** | **0.1170** | **0.4827** |
+| BM25 + MQ3 + BGE-Reranker (top50) | 0.5867 | 0.4507 | 0.1185 | 0.4844 |
+| Dense(Faiss + BGE-M3) | 0.2533 | 0.1634 | 0.0514 | 0.1847 |
+| **Hybrid(Faiss) + MQ3 + BGE-Reranker** | **0.6152** | **0.4725** | **0.1242** | **0.5080** |
 
 ### Answerable-Only Benchmark
 
@@ -50,6 +54,12 @@ This document summarizes the benchmark-backed conclusions currently reflected in
 - Multi-Query gave a mild positive improvement.
 - HyDE reduced retrieval quality in this legal setting and was removed.
 - The largest gain came from the BGE cross-encoder reranker.
+- Dense(Faiss) alone remained significantly weaker than BM25 in this legal benchmark.
+- Hybrid(Faiss) improved over `BM25 + MQ3 + BGE-Reranker(top50)` by:
+  - `Recall@5`: `+0.0285`
+  - `MRR`: `+0.0218`
+  - `Precision@5`: `+0.0057`
+  - `nDCG@5`: `+0.0236`
 - On the `answerable` subset, the final retrieval stack improved:
   - `Recall@5`: `+0.0957`
   - `MRR`: `+0.1260`
@@ -93,6 +103,7 @@ All generation experiments below were run on top of the best retrieval pipeline:
 ### Retrieval
 
 - BM25
+- Faiss Dense Retrieval (BGE-M3)
 - DeepSeek Multi-Query
 - BGE-Reranker v2
 
@@ -104,6 +115,6 @@ All generation experiments below were run on top of the best retrieval pipeline:
 
 ## Engineering Notes
 
-- The current dense retriever is still a research-style in-memory baseline rather than a production ANN index, so the main large-scale benchmark narrative is intentionally centered on the BM25 pipeline.
+- The repository now includes a Faiss-backed dense retrieval path using BGE-M3 embeddings. In the current benchmark, dense-only remains weaker than BM25, while hybrid retrieval is the effective use of dense signals.
 - HyDE was tested and removed based on measured degradation instead of intuition.
 - The strongest claims in this repository should be made around retrieval gains, reranking gains, grounded generation correctness, and citation precision improvements.

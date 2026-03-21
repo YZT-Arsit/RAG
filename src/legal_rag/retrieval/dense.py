@@ -2,8 +2,14 @@ from __future__ import annotations
 
 import math
 from collections import Counter
+from pathlib import Path
 
 from legal_rag.retrieval.bm25 import _build_hits
+from legal_rag.retrieval.embeddings import (
+    BGEEmbeddingEncoder,
+    DEFAULT_DENSE_EMBEDDING_MODEL,
+)
+from legal_rag.retrieval.faiss_index import load_chunk_metadata
 from legal_rag.retrieval.tokenize import char_ngrams
 from legal_rag.schemas.chunk import Chunk
 from legal_rag.schemas.retrieval import QueryRecord, RetrievalResult
@@ -71,6 +77,65 @@ class DenseBaselineRetriever:
         for token, weight in query_weights.items():
             numerator += weight * doc_weights.get(token, 0.0)
         return numerator / (query_norm * doc_norm)
+
+
+class FaissDenseRetriever:
+    def __init__(
+        self,
+        *,
+        index,
+        chunks: list[Chunk],
+        encoder: BGEEmbeddingEncoder,
+    ) -> None:
+        self.index = index
+        self.chunks = chunks
+        self.encoder = encoder
+
+    @classmethod
+    def from_disk(
+        cls,
+        *,
+        index_path: Path,
+        metadata_path: Path,
+        model_name: str | None,
+        modelscope_model_id: str | None,
+        local_model_dir: Path | None,
+        use_modelscope_download: bool,
+        device: str,
+        batch_size: int,
+        max_length: int,
+    ) -> "FaissDenseRetriever":
+        try:
+            import faiss
+        except ModuleNotFoundError as exc:  # pragma: no cover - optional dep
+            msg = "faiss is required for dense_backend=faiss."
+            raise RuntimeError(msg) from exc
+
+        index = faiss.read_index(str(index_path))
+        chunks = load_chunk_metadata(metadata_path)
+        encoder = BGEEmbeddingEncoder(
+            model_name=model_name or DEFAULT_DENSE_EMBEDDING_MODEL,
+            modelscope_model_id=modelscope_model_id,
+            local_model_dir=local_model_dir,
+            use_modelscope_download=use_modelscope_download,
+            device=device,
+            batch_size=batch_size,
+            max_length=max_length,
+        )
+        return cls(index=index, chunks=chunks, encoder=encoder)
+
+    def retrieve(self, query: QueryRecord, *, top_k: int) -> RetrievalResult:
+        if not self.chunks:
+            return RetrievalResult(query=query, hits=[])
+        query_matrix = self.encoder.encode([query.query_text])
+        scores, indices = self.index.search(query_matrix, top_k)
+        scored: list[tuple[Chunk, float, int]] = []
+        for score, idx in zip(scores[0], indices[0], strict=True):
+            if idx < 0 or idx >= len(self.chunks):
+                continue
+            scored.append((self.chunks[idx], float(score), int(idx)))
+        hits = _build_hits(query, scored, method="dense_faiss", top_k=top_k)
+        return RetrievalResult(query=query, hits=hits)
 
 
 def _retrieval_text(chunk: Chunk) -> str:

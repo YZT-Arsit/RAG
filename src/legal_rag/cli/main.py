@@ -18,6 +18,7 @@ from legal_rag.config.schema import (
     ChunkingConfig,
     CleaningConfig,
     ContextProcessingConfig,
+    DenseIndexBuildConfig,
     ErrorAnalysisConfig,
     ExperimentMatrixConfig,
     GenerationConfig,
@@ -40,7 +41,7 @@ from legal_rag.evaluation.service import (
 from legal_rag.benchmark.generation import run_benchmark_generation
 from legal_rag.generation.service import run_generation, run_llm_generation_debug
 from legal_rag.orchestration.runner import run_experiment_matrix
-from legal_rag.retrieval.service import run_retrieval
+from legal_rag.retrieval.service import build_dense_index, run_retrieval
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -79,6 +80,13 @@ def build_parser() -> argparse.ArgumentParser:
     )
     retrieve_parser.add_argument(
         "--config", required=True, help="Path to retrieval YAML config."
+    )
+
+    dense_index_parser = subparsers.add_parser(
+        "build-dense-index", help="Build persistent Faiss dense indexes from chunk JSONL."
+    )
+    dense_index_parser.add_argument(
+        "--config", required=True, help="Path to dense index YAML config."
     )
 
     generate_parser = subparsers.add_parser(
@@ -202,6 +210,11 @@ def main() -> None:
         raw = load_yaml_config(config_path)
         config = RetrievalConfig.model_validate(raw)
         run_retrieval(config)
+    elif args.command == "build-dense-index":
+        config_path = Path(args.config)
+        raw = load_yaml_config(config_path)
+        config = DenseIndexBuildConfig.model_validate(raw)
+        build_dense_index(config)
     elif args.command == "generate":
         config_path = Path(args.config)
         raw = load_yaml_config(config_path)
