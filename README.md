@@ -4,8 +4,6 @@
 
 **面向中文法律文档的结构化检索增强生成系统**
 
-一个聚焦**中文法律 / 政策文档**的 RAG 工程实践：从结构化切块、检索增强、精排、引用生成到自动化评估，**可复现、可解释、可对比**。
-
 <p>
   <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white" />
   <img src="https://img.shields.io/badge/Domain-Chinese%20Legal%20RAG-8A2BE2" />
