@@ -94,7 +94,7 @@ flowchart TD
 - **Faiss persistent vector index**
 - **dense retrieval over saved index**
 
-在此基础上，最终检索主线并不是 `dense-only`，而是：
+在此基础上，最终检索主线为：
 
 - **BM25**：保留法律检索中的强词面信号
 - **Faiss Dense(BGE-M3)**：补充语义召回
@@ -105,8 +105,8 @@ flowchart TD
 
 ### 3. Why HyDE Was Removed
 
-在本项目 benchmark 上，**HyDE** 没有带来正收益，反而让 `Recall@3 / Recall@5 / MRR` 下降。  
-一个合理解释是：法律文本对术语边界、责任概念、程序表达很敏感，HyDE 生成的伪答案容易引入分布偏移，因此最终保留了 **Multi-Query**，去掉了 **HyDE**。
+在本项目 benchmark 上，**HyDE** 没有带来正收益，反而让 `Recall@3 / Recall@5 / MRR` 下降。 
+法律文本对术语边界、责任概念、程序表达很敏感，HyDE 生成的伪答案容易引入分布偏移，因此最终保留了 **Multi-Query**，去掉了 **HyDE**。
 
 ### 4. Retrieval First, Then Generation
 
